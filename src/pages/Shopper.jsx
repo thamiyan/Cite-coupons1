@@ -14,9 +14,9 @@ export default function Shopper() {
   }, [])
 
   function onRedeem(id) {
-    const { next, saved } = redeemCoupon(id) // updates store
+    const { next, saved } = redeemCoupon(id)
     setCoupons(next.filter(c => c.active))
-    setStats(addRedemption(saved))          // update shopper stats
+    setStats(addRedemption(saved))
     alert(`Redeemed! You saved $${saved.toFixed(2)} (demo).`)
   }
 
@@ -25,39 +25,39 @@ export default function Shopper() {
       {(user) => (
         <div>
           <Nav user={user} />
-          <h1 className="text-2xl font-bold mb-4">Coupons (Shopper)</h1>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            <Card title="Status abonnement">
-              <p>🔓 <b>Demo mode:</b> accès aux coupons simulé.</p>
-            </Card>
-            <Card title="Mes stats">
-              <div className="text-sm">
-                <div><b>Redemptions:</b> {stats.redemptions}</div>
-                <div><b>Économies totales:</b> ${stats.savings.toFixed(2)}</div>
+          <header className="mt-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">Coupons (Shopper)</h1>
+              <p className="text-sm text-gray-600">Utilisez les offres actives et suivez vos économies.</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Stat label="Redemptions" value={stats.redemptions} />
+              <Stat label="Économies" value={`$${stats.savings.toFixed(2)}`} />
+            </div>
+          </header>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {coupons.map((c) => (
+              <div key={c.id} className="bg-white rounded-2xl shadow p-5 flex items-start justify-between">
+                <div>
+                  <div className="text-sm text-gray-500">{c.code}</div>
+                  <div className="text-lg font-semibold">{c.title}</div>
+                  <div className="text-sm text-gray-500">{c.endDate ? `Expire ${c.endDate}` : 'Sans date de fin'}</div>
+                </div>
+                <button
+                  onClick={() => onRedeem(c.id)}
+                  className="px-3 py-1.5 rounded-2xl bg-emerald-600 text-white text-sm hover:opacity-90"
+                >
+                  Redeem (demo)
+                </button>
               </div>
-            </Card>
-            <Card title="Actions rapides">
-              <a href="/login" className="px-3 py-2 rounded bg-blue-600 text-white inline-block">Se connecter</a>
-            </Card>
-          </div>
-
-          <div className="mt-6 bg-white rounded-2xl shadow p-5">
-            <h3 className="font-semibold mb-3">Coupons disponibles</h3>
-            <ul className="text-sm space-y-2">
-              {coupons.map(c => (
-                <li key={c.id} className="flex items-center justify-between border-t pt-2">
-                  <div>
-                    <b>{c.title}</b> — code <code className="bg-gray-100 px-1 rounded">{c.code}</code>
-                    {c.endDate ? ` — expire ${c.endDate}` : ''}
-                  </div>
-                  <button onClick={() => onRedeem(c.id)} className="px-2 py-1 text-xs rounded bg-emerald-600 text-white">
-                    Redeem (demo)
-                  </button>
-                </li>
-              ))}
-              {coupons.length === 0 && <li className="text-gray-500">Aucun coupon actif pour le moment.</li>}
-            </ul>
+            ))}
+            {coupons.length === 0 && (
+              <div className="bg-white rounded-2xl shadow p-5 text-gray-500">
+                Aucun coupon actif pour le moment.
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -65,11 +65,11 @@ export default function Shopper() {
   )
 }
 
-function Card({ title, children }) {
+function Stat({ label, value }) {
   return (
-    <div className="bg-white rounded-2xl shadow p-5">
-      <h2 className="font-semibold mb-2">{title}</h2>
-      <div className="text-sm text-gray-700">{children}</div>
+    <div className="rounded-2xl border bg-white p-4">
+      <div className="text-xs text-gray-500">{label}</div>
+      <div className="text-xl font-semibold">{value}</div>
     </div>
   )
 }
