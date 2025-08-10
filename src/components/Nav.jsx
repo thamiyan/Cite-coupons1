@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { logout } from '../lib/auth'
 
-export default function Nav({ user }) {
+export default function Nav({ user, showAuth = true }) {
   const { pathname } = useLocation()
   const isActive = (to) =>
     pathname === to ? 'bg-gray-900 text-white' : 'hover:bg-gray-100 text-gray-700'
@@ -18,25 +18,19 @@ export default function Nav({ user }) {
           <Link to="/business" className={`px-3 py-1.5 rounded-2xl text-sm ${isActive('/business')}`}>Business</Link>
         </div>
 
-        <div className="flex items-center gap-2">
-          {user ? (
-            <>
-              <span className="hidden sm:block text-sm text-gray-600">{user.name || user.email}</span>
-              <button
-                onClick={async () => { await logout(); location.href = '/login' }}
-                className="px-3 py-1.5 rounded-2xl text-sm bg-gray-900 text-white hover:opacity-90"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="px-3 py-1.5 rounded-2xl text-sm bg-gray-100">Login</Link>
-              <Link to="/signup" className="px-3 py-1.5 rounded-2xl text-sm bg-indigo-600 text-white">Sign up</Link>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
-  )
-}
+        {showAuth ? (
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="hidden sm:block text-sm text-gray-600">{user.name || user.email}</span>
+                <button
+                  onClick={async () => { await logout(); location.href = '/login' }}
+                  className="px-3 py-1.5 rounded-2xl text-sm bg-gray-900 text-white hover:opacity-90"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="px-3 py-1.5 rounded-2xl text-sm bg-gray-100">Login</Link>
+                <Link to="/signup" className="px-3 py-1.5 rounded-2xl text-sm bg
