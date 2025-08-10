@@ -1,27 +1,21 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Protected from '../components/Protected.jsx'
 import Nav from '../components/Nav.jsx'
-import { seedIfEmpty, addCoupon, updateCoupon, removeCoupon, loadCoupons, redeemCoupon, getAggregates } from '../lib/demoStore'
-
-const DEMO = import.meta.env.VITE_DEMO_MODE === 'true'
+import { seedIfEmpty, addCoupon, updateCoupon, removeCoupon, loadCoupons, getAggregates } from '../lib/demoStore'
 
 export default function Business() {
   const [coupons, setCoupons] = useState([])
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState(null)
 
-  useEffect(() => {
-    if (!DEMO) return
-    setCoupons(seedIfEmpty())
-  }, [])
-
+  useEffect(() => { setCoupons(seedIfEmpty()) }, [])
   const agg = useMemo(() => getAggregates(), [coupons])
 
   const metrics = [
-    { label: 'Redemptions (all time)', value: agg.totalRedemptions },
-    { label: 'Revenue attributed',     value: `$${agg.totalRevenue.toFixed(2)}` },
-    { label: 'Active coupons',         value: agg.active },
-    { label: 'New customers',          value: 18 }, // demo value
+    { label: 'Redemptions (total)', value: agg.totalRedemptions },
+    { label: 'Revenue attribué', value: `$${agg.totalRevenue.toFixed(2)}` },
+    { label: 'Coupons actifs', value: agg.active },
+    { label: 'Nouveaux clients', value: 18 }, // demo
   ]
 
   function onCreate() { setEditing(null); setOpen(true) }
@@ -44,28 +38,34 @@ export default function Business() {
     setOpen(false); setEditing(null)
   }
 
-  const top = [...coupons].sort((a,b) => (b.redemptions||0) - (a.redemptions||0)).slice(0,3)
+  const top = [...coupons].sort((a,b) => (b.redemptions || 0) - (a.redemptions || 0)).slice(0,3)
 
   return (
     <Protected>
       {(user) => (
         <div>
           <Nav user={user} />
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold">Business Analytics (demo)</h1>
-            <button onClick={onCreate} className="px-3 py-2 rounded bg-green-600 text-white">Nouveau coupon</button>
-          </div>
 
-          <div className="grid gap-4 md:grid-cols-4">
+          <header className="mt-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">Business Analytics (demo)</h1>
+              <p className="text-sm text-gray-600">Créez et gérez vos coupons. Les stats se mettent à jour avec les redemptions.</p>
+            </div>
+            <button onClick={onCreate} className="px-4 py-2 rounded-2xl bg-green-600 text-white hover:opacity-90">
+              Nouveau coupon
+            </button>
+          </header>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
             {metrics.map(m => (
               <div key={m.label} className="bg-white rounded-2xl shadow p-4">
-                <div className="text-sm text-gray-500">{m.label}</div>
+                <div className="text-xs text-gray-500">{m.label}</div>
                 <div className="text-2xl font-semibold mt-1">{m.value}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 bg-white rounded-2xl shadow p-5 overflow-x-auto">
+          <section className="mt-6 bg-white rounded-2xl shadow p-5 overflow-x-auto">
             <h2 className="font-semibold mb-3">Top coupons</h2>
             <table className="w-full text-sm">
               <thead className="text-left text-gray-500">
@@ -92,10 +92,10 @@ export default function Business() {
                 {top.length === 0 && <tr><td colSpan={4} className="py-4 text-gray-500">No coupons yet.</td></tr>}
               </tbody>
             </table>
-          </div>
+          </section>
 
-          <div className="mt-6 bg-white rounded-2xl shadow p-5 overflow-x-auto">
-            <h2 className="font-semibold mb-3">All coupons</h2>
+          <section className="mt-6 bg-white rounded-2xl shadow p-5 overflow-x-auto">
+            <h2 className="font-semibold mb-3">Tous les coupons</h2>
             <table className="w-full text-sm">
               <thead className="text-left text-gray-500">
                 <tr>
@@ -133,7 +133,7 @@ export default function Business() {
                 {coupons.length === 0 && (<tr><td className="py-4 text-gray-500" colSpan={7}>No coupons yet.</td></tr>)}
               </tbody>
             </table>
-          </div>
+          </section>
 
           {open && (
             <CouponModal
