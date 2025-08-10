@@ -46,7 +46,6 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* mini trust row */}
         <div className="mt-6 text-xs text-gray-500">
           Pas de backend requis en démo · SPA Vite + React · Tailwind
         </div>
@@ -54,21 +53,9 @@ export default function Home() {
 
       {/* FEATURES */}
       <section className="mt-14 grid gap-4 md:grid-cols-3">
-        <Feature
-          icon="🎟️"
-          title="Coupons prêts à l’emploi"
-          desc="Créez/activez vos coupons en quelques clics. Visible côté Shopper instantanément."
-        />
-        <Feature
-          icon="📈"
-          title="Analytics en direct (démo)"
-          desc="Suivez redemptions & revenus attribués. Les stats se mettent à jour lors d’un rachat."
-        />
-        <Feature
-          icon="⚙️"
-          title="Pensé POS"
-          desc="Intégration POS prévue. En démo, tout se fait côté navigateur (localStorage)."
-        />
+        <Feature icon="🎟️" title="Coupons prêts à l’emploi" desc="Créez/activez vos coupons en quelques clics. Visible côté Shopper instantanément." />
+        <Feature icon="📈" title="Analytics en direct (démo)" desc="Suivez redemptions & revenus attribués. Les stats se mettent à jour lors d’un rachat." />
+        <Feature icon="⚙️" title="Pensé POS" desc="Intégration POS prévue. En démo, tout se fait côté navigateur (localStorage)." />
       </section>
 
       {/* HOW IT WORKS */}
@@ -81,7 +68,6 @@ export default function Home() {
         </ol>
       </section>
 
-      {/* FOOTER */}
       <footer className="mt-12 mb-8 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} Cite.Coupons — Demo
       </footer>
@@ -102,9 +88,7 @@ function Feature({ icon, title, desc }) {
 function Step({ n, title, text }) {
   return (
     <li className="rounded-xl border bg-gray-50 p-4">
-      <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">
-        {n}
-      </div>
+      <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">{n}</div>
       <div className="mt-2 font-medium">{title}</div>
       <div className="text-gray-600 mt-1">{text}</div>
     </li>
