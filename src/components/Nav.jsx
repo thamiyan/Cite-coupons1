@@ -1,3 +1,4 @@
+// src/components/Nav.jsx
 import { Link, useLocation } from 'react-router-dom'
 import { logout } from '../lib/auth'
 
@@ -33,4 +34,14 @@ export default function Nav({ user, showAuth = true }) {
             ) : (
               <>
                 <Link to="/login" className="px-3 py-1.5 rounded-2xl text-sm bg-gray-100">Login</Link>
-                <Link to="/signup" className="px-3 py-1.5 rounded-2xl text-sm bg
+                <Link to="/signup" className="px-3 py-1.5 rounded-2xl text-sm bg-indigo-600 text-white">Sign up</Link>
+              </>
+            )}
+          </div>
+        ) : (
+          <div />
+        )}
+      </div>
+    </nav>
+  )
+}
