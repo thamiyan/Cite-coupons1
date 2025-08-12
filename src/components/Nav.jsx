@@ -1,8 +1,7 @@
-// src/components/Nav.jsx
 import { Link, useLocation } from 'react-router-dom'
 import { logout } from '../lib/auth'
 
-export default function Nav({ user, showAuth = true }) {
+export default function Nav({ user, showAuth = true, showSections = true }) {
   const { pathname } = useLocation()
   const isActive = (to) =>
     pathname === to ? 'bg-gray-900 text-white' : 'hover:bg-gray-100 text-gray-700'
@@ -14,10 +13,13 @@ export default function Nav({ user, showAuth = true }) {
           Cite.<span className="text-indigo-600">Coupons</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
-          <Link to="/shopper" className={`px-3 py-1.5 rounded-2xl text-sm ${isActive('/shopper')}`}>Shopper</Link>
-          <Link to="/business" className={`px-3 py-1.5 rounded-2xl text-sm ${isActive('/business')}`}>Business</Link>
-        </div>
+        {/* ≠≠ NEW: liens sections affichés seulement si showSections === true ≠≠ */}
+        {showSections ? (
+          <div className="hidden md:flex items-center gap-1">
+            <Link to="/shopper" className={`px-3 py-1.5 rounded-2xl text-sm ${isActive('/shopper')}`}>Shopper</Link>
+            <Link to="/business" className={`px-3 py-1.5 rounded-2xl text-sm ${isActive('/business')}`}>Business</Link>
+          </div>
+        ) : <div />}
 
         {showAuth ? (
           <div className="flex items-center gap-2">
@@ -38,9 +40,7 @@ export default function Nav({ user, showAuth = true }) {
               </>
             )}
           </div>
-        ) : (
-          <div />
-        )}
+        ) : <div /> }
       </div>
     </nav>
   )
