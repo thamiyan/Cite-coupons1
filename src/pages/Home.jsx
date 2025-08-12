@@ -9,10 +9,10 @@ export default function Home() {
 
   return (
     <div className="relative">
-      {/* showAuth={false} => pas de Logout/Signup/Login dans la nav sur Home */}
+      {/* No auth buttons on Home */}
       <Nav user={user} showAuth={false} />
 
-      {/* décor doux */}
+      {/* soft gradient bg */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-200 blur-3xl opacity-40" />
         <div className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-emerald-200 blur-3xl opacity-40" />
@@ -20,76 +20,158 @@ export default function Home() {
 
       {/* HERO */}
       <header className="mt-14 md:mt-20 text-center">
-        <h1 className="mt-2 text-4xl md:text-5xl font-black tracking-tight">
-          Coupons locaux, <span className="text-indigo-600">simples</span> et <span className="text-emerald-600">mesurables</span>
+        <h1 className="text-4xl md:text-5xl font-black tracking-tight">
+          La plateforme de <span className="text-indigo-600">coupons locaux</span> — faite pour
+          <span className="text-emerald-600"> les shoppers</span> et
+          <span className="text-emerald-600"> les commerçants</span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-gray-600">
-          Infos sur l’entreprise & démo : côté Shopper pour racheter, côté Business pour créer et analyser.
+          Côté <b>Shopper</b> : trouvez et utilisez des offres près de vous.
+          Côté <b>Business</b> : créez vos coupons, suivez les résultats en temps réel (démo).
         </p>
 
-        {/* CTA organisés */}
-        <div className="mt-8 flex flex-col items-center gap-4">
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/shopper" className="px-5 py-3 rounded-2xl bg-indigo-600 text-white shadow hover:shadow-md transition">
-              Espace Shopper
-            </Link>
-            <Link to="/business" className="px-5 py-3 rounded-2xl bg-emerald-600 text-white shadow hover:shadow-md transition">
-              Portail Business
-            </Link>
-          </div>
-          <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-3">
-            <Link to="/signup" className="underline">Créer un compte</Link>
-            {/* deux routes de login dédiées */}
-            <Link to="/login/shopper" className="underline">Se connecter (Shopper)</Link>
-            <Link to="/login/business" className="underline">Se connecter (Business)</Link>
-          </div>
+        {/* primary CTAs */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Link to="/shopper" className="px-5 py-3 rounded-2xl bg-indigo-600 text-white shadow hover:shadow-md transition">
+            Espace Shopper
+          </Link>
+          <Link to="/business" className="px-5 py-3 rounded-2xl bg-emerald-600 text-white shadow hover:shadow-md transition">
+            Portail Business
+          </Link>
+        </div>
+
+        {/* secondary CTAs */}
+        <div className="mt-3 text-sm text-gray-600 flex flex-wrap items-center justify-center gap-4">
+          <Link to="/login/shopper" className="underline">Se connecter (Shopper)</Link>
+          <Link to="/login/business" className="underline">Se connecter (Business)</Link>
+          <Link to="/signup" className="underline">Créer un compte</Link>
         </div>
       </header>
 
-      {/* TARIFS */}
-      <section className="mt-16">
-        <h2 className="text-center text-2xl font-semibold">Tarifs</h2>
-        <p className="text-center text-gray-600 mt-1 text-sm">Des plans simples pour démarrer en toute sérénité.</p>
+      {/* INTRO SECTIONS */}
+      <section className="mt-14 grid gap-5 md:grid-cols-2">
+        <IntroCard
+          title="Pour les Shoppers"
+          points={[
+            "Parcourez des coupons vérifiés près de chez vous",
+            "Rachetez en un clic (démo) et suivez vos économies",
+            "Interface simple, mobile-friendly",
+          ]}
+          ctas={[
+            { to: "/shopper", label: "Voir les coupons", variant: "primary" },
+            { to: "/login/shopper", label: "Se connecter", variant: "ghost" },
+          ]}
+        />
+        <IntroCard
+          title="Pour les Commerçants"
+          points={[
+            "Créez/activez vos coupons en quelques secondes",
+            "Tableau de bord avec redemptions & revenus (démo)",
+            "Pensé POS — intégrations à venir",
+          ]}
+          ctas={[
+            { to: "/business", label: "Ouvrir le portail", variant: "primary-emerald" },
+            { to: "/login/business", label: "Se connecter", variant: "ghost" },
+          ]}
+        />
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="mt-14 bg-white rounded-2xl shadow p-6">
+        <h2 className="text-xl font-semibold text-center">Comment ça marche</h2>
+        <ol className="mt-4 grid gap-4 md:grid-cols-3 text-sm">
+          <Step n="1" title="Choisissez votre espace" text="Shopper pour racheter des offres, Business pour en créer." />
+          <Step n="2" title="Créez / Rachetez" text="Business: « Nouveau coupon » · Shopper: « Redeem (demo) » pour tester." />
+          <Step n="3" title="Mesurez l’impact" text="Les redemptions et le revenu attribué se cumulent automatiquement." />
+        </ol>
+      </section>
+
+      {/* PRICING WITH NO PRICES */}
+      <section className="mt-14">
+        <h2 className="text-center text-2xl font-semibold">Tarifs (aperçu)</h2>
+        <p className="text-center text-gray-600 mt-1 text-sm">
+          Les niveaux tarifaires arriveront bientôt — contactez-nous pour l’accès anticipé.
+        </p>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <PriceCard
-            title="Gratuit"
-            price="0$"
+            title="Démo"
+            note="Gratuit en mode démo"
+            features={['Accès aux coupons démo', 'Rachat (demo) illimité', 'Aucune carte requise']}
             cta="Essayer (Shopper)"
             to="/login/shopper"
-            features={['Accès aux coupons démo', 'Rachat (demo) illimité', 'Aucune carte requise']}
           />
           <PriceCard
             title="Pro"
-            price="29$/mois"
+            note="Tarif à venir"
             highlight
+            features={['Création illimitée', 'Analytics de base', 'Support email']}
             cta="Démarrer Business"
             to="/login/business"
-            features={['Création de coupons illimitée', 'Analytics de base', 'Support email']}
           />
           <PriceCard
             title="Business"
-            price="99$/mois"
+            note="Tarif à venir"
+            features={['Analytics avancés', 'Multiples utilisateurs', 'Intégration POS (à venir)']}
             cta="Nous contacter"
             to="/business"
-            features={['Analytics avancés', 'Équipe multi-utilisateurs', 'Intégration POS (à venir)']}
           />
         </div>
       </section>
 
       <footer className="mt-12 mb-8 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Cite.Coupons — Demo
+        © {new Date().getFullYear()} Cite.Coupons — Informations & Démo
       </footer>
     </div>
   )
 }
 
-function PriceCard({ title, price, features, cta, to, highlight }) {
+function IntroCard({ title, points, ctas }) {
+  return (
+    <div className="bg-white rounded-2xl shadow p-6">
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <ul className="mt-3 text-sm text-gray-700 list-disc pl-5 space-y-1">
+        {points.map((p, i) => <li key={i}>{p}</li>)}
+      </ul>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {ctas.map((c, i) => (
+          <Link
+            key={i}
+            to={c.to}
+            className={
+              c.variant === 'primary'
+                ? 'px-4 py-2 rounded-2xl bg-indigo-600 text-white'
+                : c.variant === 'primary-emerald'
+                ? 'px-4 py-2 rounded-2xl bg-emerald-600 text-white'
+                : 'px-4 py-2 rounded-2xl bg-gray-100'
+            }
+          >
+            {c.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Step({ n, title, text }) {
+  return (
+    <li className="rounded-xl border bg-gray-50 p-4">
+      <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">
+        {n}
+      </div>
+      <div className="mt-2 font-medium">{title}</div>
+      <div className="text-gray-600 mt-1">{text}</div>
+    </li>
+  )
+}
+
+function PriceCard({ title, note, features, cta, to, highlight }) {
   return (
     <div className={`rounded-2xl p-5 bg-white shadow ${highlight ? 'ring-2 ring-emerald-500' : ''}`}>
       <div className="flex items-baseline justify-between">
         <h3 className="font-semibold">{title}</h3>
-        <div className="text-2xl font-bold">{price}</div>
+        {note && <div className="text-xs text-gray-500">{note}</div>}
       </div>
       <ul className="mt-3 text-sm text-gray-600 list-disc pl-5 space-y-1">
         {features.map((f, i) => <li key={i}>{f}</li>)}
