@@ -9,10 +9,10 @@ export default function Home() {
 
   return (
     <div className="relative">
-      {/* No auth buttons on Home */}
-      <Nav user={user} showAuth={false} />
+      {/* Home = info only → pas d’auth UI, pas de liens Shopper/Business dans la nav */}
+      <Nav user={user} showAuth={false} showSections={false} />
 
-      {/* soft gradient bg */}
+      {/* décor doux */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-200 blur-3xl opacity-40" />
         <div className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-emerald-200 blur-3xl opacity-40" />
@@ -21,26 +21,24 @@ export default function Home() {
       {/* HERO */}
       <header className="mt-14 md:mt-20 text-center">
         <h1 className="text-4xl md:text-5xl font-black tracking-tight">
-          La plateforme de <span className="text-indigo-600">coupons locaux</span> — faite pour
-          <span className="text-emerald-600"> les shoppers</span> et
-          <span className="text-emerald-600"> les commerçants</span>
+          La plateforme de <span className="text-indigo-600">coupons locaux</span> —
+          <span className="text-emerald-600"> pour les shoppers et les commerçants</span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-gray-600">
-          Côté <b>Shopper</b> : trouvez et utilisez des offres près de vous.
-          Côté <b>Business</b> : créez vos coupons, suivez les résultats en temps réel (démo).
+          Côté <b>Shopper</b> : découvrez des offres près de vous. Côté <b>Business</b> : créez des coupons et suivez les résultats (démo).
         </p>
 
-        {/* primary CTAs */}
+        {/* CTAs d’info uniquement (ancres internes) */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/shopper" className="px-5 py-3 rounded-2xl bg-indigo-600 text-white shadow hover:shadow-md transition">
-            Espace Shopper
-          </Link>
-          <Link to="/business" className="px-5 py-3 rounded-2xl bg-emerald-600 text-white shadow hover:shadow-md transition">
-            Portail Business
-          </Link>
+          <a href="#shoppers" className="px-5 py-3 rounded-2xl bg-indigo-600 text-white shadow hover:shadow-md transition">
+            Découvrir pour Shoppers
+          </a>
+          <a href="#business" className="px-5 py-3 rounded-2xl bg-emerald-600 text-white shadow hover:shadow-md transition">
+            Découvrir pour Commerçants
+          </a>
         </div>
 
-        {/* secondary CTAs */}
+        {/* Liens d’auth (pas d’accès direct aux dashboards) */}
         <div className="mt-3 text-sm text-gray-600 flex flex-wrap items-center justify-center gap-4">
           <Link to="/login/shopper" className="underline">Se connecter (Shopper)</Link>
           <Link to="/login/business" className="underline">Se connecter (Business)</Link>
@@ -49,7 +47,7 @@ export default function Home() {
       </header>
 
       {/* INTRO SECTIONS */}
-      <section className="mt-14 grid gap-5 md:grid-cols-2">
+      <section id="shoppers" className="mt-14 grid gap-5 md:grid-cols-2">
         <IntroCard
           title="Pour les Shoppers"
           points={[
@@ -58,11 +56,12 @@ export default function Home() {
             "Interface simple, mobile-friendly",
           ]}
           ctas={[
-            { to: "/shopper", label: "Voir les coupons", variant: "primary" },
-            { to: "/login/shopper", label: "Se connecter", variant: "ghost" },
+            { to: "/login/shopper", label: "Se connecter (Shopper)", variant: "primary" },
+            { to: "/signup", label: "Créer un compte", variant: "ghost" },
           ]}
         />
         <IntroCard
+          id="business"
           title="Pour les Commerçants"
           points={[
             "Créez/activez vos coupons en quelques secondes",
@@ -70,13 +69,13 @@ export default function Home() {
             "Pensé POS — intégrations à venir",
           ]}
           ctas={[
-            { to: "/business", label: "Ouvrir le portail", variant: "primary-emerald" },
-            { to: "/login/business", label: "Se connecter", variant: "ghost" },
+            { to: "/login/business", label: "Se connecter (Business)", variant: "primary-emerald" },
+            { to: "/signup", label: "Créer un compte", variant: "ghost" },
           ]}
         />
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* COMMENT ÇA MARCHE */}
       <section className="mt-14 bg-white rounded-2xl shadow p-6">
         <h2 className="text-xl font-semibold text-center">Comment ça marche</h2>
         <ol className="mt-4 grid gap-4 md:grid-cols-3 text-sm">
@@ -86,7 +85,7 @@ export default function Home() {
         </ol>
       </section>
 
-      {/* PRICING WITH NO PRICES */}
+      {/* TARIFS (sans montants) */}
       <section className="mt-14">
         <h2 className="text-center text-2xl font-semibold">Tarifs (aperçu)</h2>
         <p className="text-center text-gray-600 mt-1 text-sm">
@@ -96,9 +95,9 @@ export default function Home() {
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <PriceCard
             title="Démo"
-            note="Gratuit en mode démo"
+            note="Sans paiement — pour tester"
             features={['Accès aux coupons démo', 'Rachat (demo) illimité', 'Aucune carte requise']}
-            cta="Essayer (Shopper)"
+            cta="Se connecter (Shopper)"
             to="/login/shopper"
           />
           <PriceCard
@@ -106,7 +105,7 @@ export default function Home() {
             note="Tarif à venir"
             highlight
             features={['Création illimitée', 'Analytics de base', 'Support email']}
-            cta="Démarrer Business"
+            cta="Se connecter (Business)"
             to="/login/business"
           />
           <PriceCard
@@ -114,7 +113,7 @@ export default function Home() {
             note="Tarif à venir"
             features={['Analytics avancés', 'Multiples utilisateurs', 'Intégration POS (à venir)']}
             cta="Nous contacter"
-            to="/business"
+            to="/login/business"
           />
         </div>
       </section>
@@ -157,9 +156,7 @@ function IntroCard({ title, points, ctas }) {
 function Step({ n, title, text }) {
   return (
     <li className="rounded-xl border bg-gray-50 p-4">
-      <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">
-        {n}
-      </div>
+      <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">{n}</div>
       <div className="mt-2 font-medium">{title}</div>
       <div className="text-gray-600 mt-1">{text}</div>
     </li>
